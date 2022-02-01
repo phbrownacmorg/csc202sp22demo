@@ -4,7 +4,7 @@
 import unittest
 from validdate import * # import the module to test
 
-class TestNothing(unittest.TestCase):
+class TestValidDate(unittest.TestCase):
     def test_dateStr(self) -> None:
         self.assertTrue(isValidDateString('2/1/2022'))
 
