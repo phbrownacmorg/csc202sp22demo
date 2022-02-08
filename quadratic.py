@@ -2,9 +2,13 @@ from typing import List, Tuple
 import math
 
 def roots(a:float, b:float, c:float) -> Tuple[float, float]:
+    # Pre: a, b, and c are all floats
     determinant:float = b**2 - 4*a*c
-    root1 = (-b + math.sqrt(determinant)) / 2*a
-    root2 = (-b - math.sqrt(determinant)) / 2*a
+    root1 = (-b + math.sqrt(determinant)) / (2*a)
+    root2 = (-b - math.sqrt(determinant)) / (2*a)
+    # Post: determinant < 0, in which case we raised ValueError, OR
+    #assert math.isclose(a*root1**2 + b*root1 + c, 0) \
+    #    and math.isclose(a*root2**2 + b*root2 + c, 0)
     return root1, root2
 
 def main(args:List[str]) -> int:

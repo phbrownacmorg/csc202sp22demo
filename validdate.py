@@ -5,6 +5,9 @@ from typing import List
 from leapyear import isLeapYear
 
 def isValidDay(month:int, day:int, year:int) -> bool:
+    # Pre: day is an integer AND
+    assert year > 1581 and (1 <= month <= 12)
+    
     valid:bool = (day >= 1) and (day <= 31)
 
     if month in (9, 4, 6, 11) and (day > 30):
@@ -13,21 +16,24 @@ def isValidDay(month:int, day:int, year:int) -> bool:
         valid = False
     elif (month == 2) and (not isLeapYear(year)) and (day > 28):
         valid = False
-
+    # Since the precondition requires a valid month and year...
+    # Post: valid == (month/day/year is a valid Gregorian date)
     return valid
 
 def isDate(month:int, day:int, year:int) -> bool:
+    # Pre: month, day, and year are all integers
     valid:bool = (1 <= month <= 12)
 
     valid = valid and (year >= 1582)
     valid = valid and (day > 0)
     valid = valid and isValidDay(month, day, year)
-
+    # Post: valid == True iff month/day/year is a valid Gregorian date
     return valid
 
 def isValidDateString(dateStr:str) -> bool:
     """Takes a date string DATESTR and returns a Boolean that is
     True iff DATESTR represents a valid date in m/d/yyyy format."""
+    # Pre: dateStr is a string
     result:bool = True
 
     # Parse the string into its components
@@ -41,7 +47,8 @@ def isValidDateString(dateStr:str) -> bool:
         day:int = int(parts[1])
         year:int = int(parts[2])
         result = isDate(month, day, year)
-
+    # Post: result == True iff dateStr represents a valid
+    #         Gregorian date in m/d/yyyy format
     return result
 
 
