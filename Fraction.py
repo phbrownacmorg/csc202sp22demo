@@ -1,5 +1,5 @@
 import math
-from typing import Any, Union
+from typing import Any
 
 class Fraction:
     """Class to represent a rational number.  Fraction objects are
