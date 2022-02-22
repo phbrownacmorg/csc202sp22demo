@@ -41,3 +41,14 @@ class UnoCard(AbstractCard):
         """Make and return an Uno deck."""
         # Temporary
         return []
+
+    # Ignore for the purposes of Lab 3!
+    @staticmethod
+    def makeSomeColorCards() -> List[AbstractCard]:
+        """Make and return a List containing a single copy of all the color cards."""
+        # Pre: none
+        result: List[AbstractCard] = []
+        for rank in UnoCard._COLOR_RANKS:
+            for suit in UnoCard._COLOR_SUITS:
+                result.append(UnoCard(rank, suit))
+        return result
