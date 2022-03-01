@@ -1,6 +1,8 @@
 import abc
-from typing import List, Tuple
+from functools import total_ordering
+from typing import Any, List, Tuple
 
+@total_ordering
 class AbstractCard(abc.ABC):
     """Abstract base class for playing cards that have 
     a rank, suit structure."""
@@ -29,7 +31,7 @@ class AbstractCard(abc.ABC):
         """Represent the card as a string."""
         # Pre:
         assert self._invariant()
-        return self.suit() + ' ' + self.rankName()
+        return (self.suit().capitalize() + ' ' + self.rankName().capitalize()).strip()
         # Post: return value is rank ' of ' suit
 
     def suit(self) -> str:
@@ -58,6 +60,36 @@ class AbstractCard(abc.ABC):
         # Post:
         assert result == self._RANK_NAMES[self._rank]
         return result
+
+    def __eq__(self, other:Any) -> bool:
+        """Compare an AbstractCard to another object for equality.  Cards
+        are defined as equal if their ranks and suits are the same.
+
+        Cards can only be compared to objects of their own class.  So,
+        for example, an UnoCard can't be compared to a PlayingCard."""
+        # Pre:
+        assert self._invariant()
+        if type(self) != type(other):
+            raise NotImplementedError("Cards of different types can't be compared")
+        return bool(self.rank() == other.rank() and self.suit() == other.suit())
+        # Post: return value is True iff other has the same class as self
+        #   (or a subclass) and the ranks and suits are equal
+
+    def __lt__(self, other:Any) -> bool:
+        """Compare an AbstractCard to another object for ordering.  A card
+        is defined as less than another card if its rank is less or if the
+        ranks are equal and the suit alphabetizes before the other card's
+        suit.
+
+        Cards can only be compared to objects of their own class or a
+        subclass.  So, for example, an UnoCard can't be compared to a
+        PlayingCard."""
+        # Pre:
+        assert self._invariant()
+        if type(self) != type(other):
+            raise NotImplementedError("Cards of different types can't be compared")
+        return bool((self.rank() < other.rank()) or (self.rank() == other.rank()
+                                                     and self.suit() < other.suit()))
 
     @staticmethod
     @abc.abstractmethod
