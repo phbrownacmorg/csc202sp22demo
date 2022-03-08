@@ -6,15 +6,14 @@ from AbstractCard import AbstractCard
 class Deck:
     """Class to represent a deck of cards."""
 
-    def _invariant(self) -> bool: # O(n)
+    def _invariant(self) -> bool: # O(1)
         """Class invariant."""
         valid: bool = True
-        for c in self._cards: # type: AbstractCard
-            if not isinstance(c, AbstractCard):
-                valid = False
+        # Cards are all AbstractCards,
+        # but the type-checker will show that anyway
         return valid
 
-    def __init__(self): # O(1)
+    def __init__(self): # type: ignore
         """Construct an empty deck of cards."""
         self._cards: List[AbstractCard] = []
         # Post:
@@ -40,7 +39,7 @@ class Deck:
 
     def dealRandom(self) -> AbstractCard:
         """Deal a card from a random location in the Deck."""
-        
+
 
     def shuffle(self) -> None: # O(n)
         """Shuffle the deck."""

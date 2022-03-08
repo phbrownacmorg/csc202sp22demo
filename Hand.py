@@ -1,10 +1,16 @@
-from typing import cast, List, Sequence
+from typing import cast, List, Optional, Sequence
 from AbstractCard import AbstractCard
 
 class Hand:
     """Class to represent a hand of playing cards.
     The cards in the Hand are kept sorted in
     non-decreasing order."""
+
+    def __init__(self): # type: ignore
+        """Construct an empty Hand."""
+        self._cards: List[AbstractCard] = []
+        # Post:
+        assert self._invariant()
 
     def _invariant(self) -> bool: # O(n)
         """Class invariant."""
@@ -14,18 +20,12 @@ class Hand:
                 valid = False
         return valid
 
-    def __init__(self): # O(1)
-        """Construct an empty Hand."""
-        self._cards: List[AbstractCard] = []
-        # Post:
-        assert self._invariant()
-
     def __len__(self) -> int: # O(1)
         """Return the size of the hand."""
         return len(self._cards)
         # Post: the return value is the length of self._cards
 
-    def addMany(self, more: Sequence[AbstractCard]) -> None: O(n * len(more))
+    def addMany(self, more: Sequence[AbstractCard]) -> None: # O(n * len(more))
         """Add the cards in MORE to the hand.  MORE does not need
         to be sorted."""
         for c in more: # O(len(more))
@@ -49,7 +49,7 @@ class Hand:
     def play(self, card: AbstractCard) -> AbstractCard: # O(n)
         """Play a given CARD, removing it from the Hand."""
         i: int = 0
-        result: AbstractCard = None
+        result: Optional[AbstractCard] = None
         while i < len(self._cards) and self._cards[i] < card: # O(n)
             i = i + 1
         if (i < len(self._cards)) and self._cards[i] == card:
@@ -57,5 +57,3 @@ class Hand:
         else:
             raise IndexError('Requested card could not be found')
         return result
-
-    

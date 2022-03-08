@@ -1,8 +1,7 @@
 import abc
-from functools import total_ordering
 from typing import Any, List, Tuple
 
-@total_ordering
+# Subclasses must have @total_ordering
 class AbstractCard(abc.ABC):
     """Abstract base class for playing cards that have 
     a rank, suit structure."""
