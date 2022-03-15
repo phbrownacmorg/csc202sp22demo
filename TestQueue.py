@@ -3,7 +3,7 @@
 
 import unittest
 # import the module to test
-from Q2Stacks import Queue
+from CircQ import Queue
 
 class TestQueue(unittest.TestCase):
     # All methods whose names start with "test"
