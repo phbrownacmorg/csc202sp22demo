@@ -14,6 +14,7 @@ class TestQueue(unittest.TestCase):
         self._s: Queue[int] = Queue[int]()
         self._s.add(5)
         self._s.add(10)
+        self._s.add(15)
 
     def test_empty(self) -> None:
         self.assertTrue(self._empty.empty())
@@ -30,6 +31,7 @@ class TestQueue(unittest.TestCase):
     def test_pop_nonempty(self) -> None:
         self.assertEqual(self._s.pop(), 5)
         self.assertEqual(self._s.pop(), 10)
+        self.assertEqual(self._s.pop(), 15)
         self.assertTrue(self._s.empty())
 
     def test_peek_empty(self) -> None:

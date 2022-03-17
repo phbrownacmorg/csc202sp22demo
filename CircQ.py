@@ -42,6 +42,7 @@ class Queue(Generic[T]):
         # Reset the head and tail pointers
         self._head = 0
         self._tail = 0
+        self._items.extend([None] * self._capy)
         self._capy = 2 * self._capy
         for i in range(len(temp)):
             self.add(temp[i])
