@@ -45,6 +45,58 @@ def gcd(a: int, b: int) -> int:
         result = gcd(b, a % b)
     return abs(result) # abs to handle negatives correctly
 
+# -------------- Exponentiation -----------------------
+
+def exp(a: float, b: int) -> float:
+    """Raise a**b recursively."""
+    # Pre:
+    assert b >= 0
+    result: float = 0
+
+    if b == 0:
+        result = 1
+    else: # b > 0
+        result = a * exp(a, b - 1)
+    return result
+
+# -------------- Fast exponentiation -----------------------
+# (also allows the use of much larger powers without running
+# afoul of the maximum recursion depth)
+
+def fastexp(a: float, b: int) -> float:
+    """Raise a**b recursively, but faster."""
+    # Pre:
+    assert b >= 0
+    result: float = 0
+
+    if b == 0: # Base case
+        result = 1
+    elif (b % 2) == 0: # Recursive case #1: b > 0 and b is even
+        root: float = fastexp(a, b // 2)
+        result = root * root # Square the square root
+    else: # Recursive case #2: b > 0 and b is odd
+        root = fastexp(a, b // 2)
+        result = a * root * root # Square the square root
+    return result
+
+#-------------- Base conversion ---------------------------------
+
+def baseconv(a: int, b: int) -> str:
+    """Return a expressed in base b."""
+    digits: str = '0123456789abcdefghijklmnopqrstuvwxyz'
+    # Pre:
+    assert b > 1 and b <= len(digits)
+
+    result: str = ''
+
+    if a >= 0 and a < b: # Base case
+        result = digits[a]
+    elif a < 0: # Recursive case #1
+        result = '-' + baseconv(-a, b)
+    else: # Recursive case #2
+        result = baseconv(a // b, b) + digits[a % b]
+    return result
+
 def main(args: List[str]) -> int:
     numlist = list(range(3))
     print(numlist, sumlist(cast(List[float], numlist)))
@@ -52,7 +104,27 @@ def main(args: List[str]) -> int:
     print(s, ':', strrev(s))
     a, b = 5, 11 # type: Tuple[int, int]
     print('gcd(', a, ',', b, ') = ', gcd(a, b), sep='')
+    a, b = 2, 996  # 996
+    print(a, "**" , b, '=', exp(a, b))
+    print(a, "**" , b, '=', fastexp(a, b))
+    b = 1000000
+    # print(a, "**" , b, '=', fastexp(a, b))
+    a, b = 256, 10
+    print(a, 'in base', b, '=', baseconv(a, b))
+    a, b = 256, 16
+    print(a, 'in base', b, '=', baseconv(a, b))
+    a, b = 256, 2
+    print(a, 'in base', b, '=', baseconv(a, b))
+    a, b = 255, 10
+    print(a, 'in base', b, '=', baseconv(a, b))
+    a, b = 255, 16
+    print(a, 'in base', b, '=', baseconv(a, b))
+    a, b = 255, 2
+    print(a, 'in base', b, '=', baseconv(a, b))
+
+
     return 0
+
 
 if __name__ == '__main__':
     import sys
