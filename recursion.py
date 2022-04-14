@@ -39,7 +39,9 @@ def strrev(s: str) -> str:
 def gcd(a: int, b: int) -> int:
     """Find the GCD, recursively."""
     result: int = 0
-    if (a % b) == 0: # Base case: b divides a evenly
+    if b == 0:
+        result = a
+    elif (a % b) == 0: # Base case: b divides a evenly
         result = b
     else: # Recursive case
         result = gcd(b, a % b)
@@ -49,12 +51,12 @@ def gcd(a: int, b: int) -> int:
 
 def exp(a: float, b: int) -> float:
     """Raise a**b recursively."""
-    # Pre:
-    assert b >= 0
     result: float = 0
 
     if b == 0:
         result = 1
+    elif b < 0:
+        result = 1 / exp(a, -b)
     else: # b > 0
         result = a * exp(a, b - 1)
     return result
@@ -65,12 +67,12 @@ def exp(a: float, b: int) -> float:
 
 def fastexp(a: float, b: int) -> float:
     """Raise a**b recursively, but faster."""
-    # Pre:
-    assert b >= 0
     result: float = 0
 
     if b == 0: # Base case
         result = 1
+    elif b < 0:
+        result = 1 / fastexp(a, -b)
     elif (b % 2) == 0: # Recursive case #1: b > 0 and b is even
         root: float = fastexp(a, b // 2)
         result = root * root # Square the square root
@@ -104,7 +106,7 @@ def main(args: List[str]) -> int:
     print(s, ':', strrev(s))
     a, b = 5, 11 # type: Tuple[int, int]
     print('gcd(', a, ',', b, ') = ', gcd(a, b), sep='')
-    a, b = 2, 996  # 996
+    a, b = 2, 900  # 996
     print(a, "**" , b, '=', exp(a, b))
     print(a, "**" , b, '=', fastexp(a, b))
     b = 1000000
