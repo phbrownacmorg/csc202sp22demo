@@ -1,4 +1,6 @@
 from typing import cast, List, Tuple
+import random
+import turtle
 
 # ----------------- Sum a list of numbers ---------------------------
 
@@ -98,6 +100,81 @@ def baseconv(a: int, b: int) -> str:
     else: # Recursive case #2
         result = baseconv(a // b, b) + digits[a % b]
     return result
+
+# ------- Fibonacci --------------------
+
+def slowfib(n: int) -> int:
+    """Calculate the n'th Fibonacci number, recursively.
+    This is coded straight from the definition, which results
+    in something correct but unusably slow."""
+    # Pre:
+    assert n >= 0
+
+    result: int = n # Handles the two base cases
+    if n > 1: # Recursive case
+        result = slowfib(n-1) + slowfib(n-2)
+    return result
+
+def fastfib(n: int) -> Tuple[int, int]:
+    """Recursive Fibonacci, remembering previous results.
+    This version returns not a single number but a tuple of
+    (fib(n), fib(n-1)).  This gives a result in O(n) time."""
+    # Pre:
+    assert n >= 0
+    result: Tuple[int, int] = (n, 0) # Base cases
+    if n > 1: # Recursive case
+        n_less_1: Tuple[int, int] = fastfib(n-1)
+        result = (n_less_1[0] + n_less_1[1], n_less_1[0])
+    return result
+
+def fib(n: int) -> int:
+    """Calculate the n'th Fibonacci number."""
+    return fastfib(n)[0]
+
+# ------------- Towers of Hanoi ----------------------------
+
+def move_tower(height: int, from_pole: str, to_pole: str, 
+            with_pole: str) -> None:
+    if height >= 1:
+        move_tower(height - 1, from_pole, with_pole, to_pole)
+        move_disk(height, from_pole, to_pole)
+        move_tower(height - 1, with_pole, to_pole, from_pole)
+
+def move_disk(disk: int, from_p: str, to_p: str) -> None:
+    print("moving disk", disk, "from", from_p, "to", to_p)
+
+#move_tower(4, "A", "B", "C")
+
+# Graphical recursions
+def tree(branch_len: int, t: turtle.Turtle) -> None:
+    if branch_len > 5:
+        t.width(branch_len // 5)
+        if branch_len < 40:
+            t.color('green')
+        else:
+            t.color('brown')
+        t.down()
+        t.forward(branch_len)
+        angle: float = 15 + 10 * random.random()
+        t.right(angle)
+        tree(branch_len - 15, t)
+        t.left(2 * angle)
+        tree(branch_len - 15, t)
+        t.right(angle)
+        t.up()
+        t.backward(branch_len)
+
+def draw_tree() -> None:
+    t = turtle.Turtle()
+    my_win = turtle.Screen()
+    t.left(90)
+    t.up()
+    t.backward(100)
+    t.down()
+    t.color("green")
+    tree(75, t)
+    my_win.exitonclick()
+
 
 def main(args: List[str]) -> int:
     numlist = list(range(3))

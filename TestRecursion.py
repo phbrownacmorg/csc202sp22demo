@@ -174,5 +174,36 @@ class TestRecursion(unittest.TestCase):
         with self.assertRaises(AssertionError):
             baseconv(255, 37)
 
+    # Fibonacci
+    def test_slowfib(self) -> None:
+        # Limited by speed. n == 40 is already a couple of minutes.
+        maxfib = 15 
+        fibs: List[int] = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34,
+                55, 89, 144]
+        for i in range(len(fibs), maxfib):
+            fibs.append(fibs[i-1] + fibs[i-2])
+        for i in range(len(fibs)):
+            with self.subTest(i=i):
+                self.assertEqual(slowfib(i), fibs[i])
+
+    def test_fastfib(self) -> None:
+        # Limited by recursion depth, not speed
+        maxfib = 950 
+        fibs: List[int] = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34,
+                55, 89, 144]
+        for i in range(len(fibs), maxfib):
+            fibs.append(fibs[i-1] + fibs[i-2])
+        for i in range(len(fibs)):
+            with self.subTest(i=i):
+                self.assertEqual(fib(i), fibs[i])
+
+    def test_hanoi(self) -> None:
+        move_tower(4, "A", "B", "C")
+
+    # Graphical recursions
+
+    def test_tree(self) -> None:
+        draw_tree()
+
 if __name__ == '__main__':
     unittest.main()
