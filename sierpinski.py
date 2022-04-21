@@ -40,7 +40,7 @@ def draw_sierpinski(pts: List[Tuple[float, float]], depth: int,
 
 def main(args: List[str]) -> int:
     t: Turtle = Turtle()
-    w: turtle.TurtleScreen = turtle.Screen()
+    w = turtle.Screen()
 
     pts: List[Tuple[float, float]] = [(-180, -150), (0, 150), (180, -150)]
     draw_sierpinski(pts, 4, t)
