@@ -16,10 +16,6 @@ def draw_tri(side: float, color: str, t: Turtle) -> None:
     t.end_fill()
     t.up()
 
-def midpt(p0: Tuple[float, float], p1: Tuple[float, float]) -> Tuple[float, float]:
-    """Find and return the midpoint of the given points P0 and P1."""
-    return ((p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2)
-
 def draw_sierpinski(side: float, depth: int, t: Turtle) -> None:
     """Draw a Sierpinski triangle with side SIDE and depth DEPTH,
         using Turtle T.  The turtle begins and ends at the lower-left
