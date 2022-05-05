@@ -25,10 +25,10 @@ class BST(BinTree[T]):
             valid = valid and isinstance(self.leftChild(), BST)
 
             # Child's parent link is correct
-            valid = valid and self == self.leftChild().parent()
+            valid = valid and self == cast(BST, self.leftChild()).parent()
             
             # Maximum value in the left subtree < this node's data
-            maxLeftNode: BST[T] = self.leftChild()
+            maxLeftNode: BinTree[T] = self.leftChild() # Actually a BST, but...
             while maxLeftNode.hasRightChild():
                 maxLeftNode = maxLeftNode.rightChild()
             valid = valid and maxLeftNode.data() < self.data() # type: ignore
@@ -41,10 +41,10 @@ class BST(BinTree[T]):
             valid = valid and isinstance(self.rightChild(), BST)
 
             # Child's parent link is correct
-            valid = valid and self == self.rightChild().parent()
+            valid = valid and self == cast(BST, self.rightChild()).parent()
 
             # Minimum value in the right subtree > this node's data
-            minRightNode: BST[T] = self.rightChild()
+            minRightNode: BinTree[T] = self.rightChild() # Actually  BST, but...
             while minRightNode.hasLeftChild():
                 minRightNode = minRightNode.leftChild()
             valid = valid and minRightNode.data() > self.data() # type: ignore
@@ -107,7 +107,7 @@ class BST(BinTree[T]):
         # Pre:
         assert self.hasRightChild()
         # The successor node S is named succNode here
-        succNode: BST[T] = self.rightChild()
+        succNode: BinTree[T] = self.rightChild() # Actually a BST, but...
         # Follow down S's left subtree to find the smallest node in N's
         # right subtree
         while succNode.hasLeftChild():
@@ -163,7 +163,7 @@ class BST(BinTree[T]):
             # Copy up this node's child in place of this node
             elif (not self.hasLeftChild()) or (not self.hasRightChild()):
                 if self.hasLeftChild():
-                    child: BST[T] = self.leftChild()
+                    child: BinTree[T] = self.leftChild() # Actually a BST
                 else:
                     child = self.rightChild()
                 # Copy the data from the child up to this node
@@ -177,7 +177,7 @@ class BST(BinTree[T]):
                 successor: T = self.findSuccessor()
                 self._data = successor
                 # Remove it from the right subtree
-                self.rightChild().remove(successor)
+                cast(BST, self.rightChild()).remove(successor)
                 
                     
                  

@@ -55,9 +55,9 @@ class TestBST(unittest.TestCase):
     def testSuccessor(self) -> None:
         self.assertEqual(self._3nodes.findSuccessor(), 47)
 
-        self.assertEqual(self._7nodes.leftChild().leftChild().findSuccessor(), 15)
+        self.assertEqual(cast(BST, self._7nodes.leftChild().leftChild()).findSuccessor(), 15)
         self.assertEqual(self._7nodes.findSuccessor(), 42)
-        self.assertEqual(self._7nodes.rightChild().findSuccessor(), 70)
+        self.assertEqual(cast(BST, self._7nodes.rightChild()).findSuccessor(), 70)
 
     def testRemove_1node(self) -> None:
         with self.assertRaises(ValueError):
