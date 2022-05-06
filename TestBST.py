@@ -35,7 +35,7 @@ class TestBST(unittest.TestCase):
         self.assertFalse(42 in self._3nodes)
         self.assertFalse(70 in self._3nodes)
 
-    def test_contains6(self) -> None:
+    def test_contains7(self) -> None:
         self.assertTrue(34 in self._7nodes)
         self.assertTrue(31 in self._7nodes)
         self.assertTrue(47 in self._7nodes)
@@ -53,11 +53,19 @@ class TestBST(unittest.TestCase):
         self.assertFalse(71 in self._7nodes)
 
     def testSuccessor(self) -> None:
-        self.assertEqual(self._3nodes.findSuccessor(), 47)
+        self.assertEqual(self._1node.findSuccessor(), None)
 
-        self.assertEqual(cast(BST, self._7nodes.leftChild().leftChild()).findSuccessor(), 15)
-        self.assertEqual(self._7nodes.findSuccessor(), 42)
-        self.assertEqual(cast(BST, self._7nodes.rightChild()).findSuccessor(), 70)
+        self.assertEqual(self._3nodes.leftChild().findSuccessor().data(), 34)   # type: ignore
+        self.assertEqual(self._3nodes.findSuccessor().data(), 47)               # type: ignore
+        self.assertEqual(self._3nodes.rightChild().findSuccessor(), None)       # type: ignore
+
+        self.assertEqual(self._7nodes.leftChild().leftChild().findSuccessor().data(), 15)               # type: ignore
+        self.assertEqual(self._7nodes.leftChild().leftChild().rightChild().findSuccessor().data(), 31)  # type: ignore
+        self.assertEqual(self._7nodes.leftChild().findSuccessor().data(), 34)                           # type: ignore
+        self.assertEqual(self._7nodes.findSuccessor().data(), 42)                                       # type: ignore
+        self.assertEqual(self._7nodes.rightChild().leftChild().findSuccessor().data(), 47)                          # type: ignore
+        self.assertEqual(self._7nodes.rightChild().findSuccessor().data(), 70)                          # type: ignore
+        self.assertEqual(self._7nodes.rightChild().rightChild().findSuccessor(), None)                  # type: ignore
 
     def testRemove_1node(self) -> None:
         with self.assertRaises(ValueError):
@@ -87,10 +95,13 @@ class TestBST(unittest.TestCase):
         self.assertEqual(len(self._3nodes), 2)                  # That should be the whole tree
 
     def test_remove_7nodes_left(self) -> None:
+        self.assertTrue(31 in self._7nodes)
         self._7nodes.remove(31)
         self.assertFalse(31 in self._7nodes)
         self.assertEqual(self._7nodes.data(), 34)               # Root should be 34
-        self.assertEqual(self._7nodes.leftChild().data(), 6)    # Left child should be 31
+        self.assertTrue(self._7nodes._invariant())
+        self.assertEqual(self._7nodes.leftChild().data(), 6)    # Left child should be 6
+        self.assertEqual(self._7nodes.leftChild().rightChild().data(), 15)    # Left child should be 6
         self.assertEqual(self._7nodes.inorder(), cast(List[int], [6, 15, 34, 42, 47, 70]))                  # That should be the whole tree
 
     def test_remove_7nodes_right(self) -> None:
@@ -106,8 +117,7 @@ class TestBST(unittest.TestCase):
         self.assertEqual(self._7nodes.data(), 42)               # Root should be 42
         self.assertEqual(self._7nodes.rightChild().data(), 47)  # Right child should be 47
         self.assertEqual(self._7nodes.inorder(), cast(List[int], [6, 15, 31, 42, 47, 70]))                  # That should be the whole tree
-
-
+        
 if __name__ == '__main__':
     unittest.main()
     
