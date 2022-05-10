@@ -21,6 +21,17 @@ class TestBST(unittest.TestCase):
         self._7nodes.add(70)                    #   \
         self._7nodes.add(42)                    #    15
 
+        self._10nodes:BST[int] = BST[int](17)
+        self._10nodes.add(14)
+        self._10nodes.add(11)
+        self._10nodes.add(15)
+        self._10nodes.add(20)
+        self._10nodes.add(27)
+        self._10nodes.add(32)
+        self._10nodes.add(28)
+        self._10nodes.add(22)
+        self._10nodes.add(18)
+
     def test_contains1(self) -> None:
         self.assertTrue(34 in self._1node)
         self.assertFalse(31 in self._1node)
@@ -117,6 +128,13 @@ class TestBST(unittest.TestCase):
         self.assertEqual(self._7nodes.data(), 42)               # Root should be 42
         self.assertEqual(self._7nodes.rightChild().data(), 47)  # Right child should be 47
         self.assertEqual(self._7nodes.inorder(), cast(List[int], [6, 15, 31, 42, 47, 70]))                  # That should be the whole tree
+
+    def test_inorder(self) -> None:
+        self.assertEqual(self._1node.inorder(), cast(List[int], [34]))
+        self.assertEqual(self._3nodes.inorder(), cast(List[int], [31, 34, 47]))
+        self.assertEqual(self._7nodes.inorder(), cast(List[int], [6, 15, 31, 34, 42, 47, 70]))
+        self.assertEqual(self._10nodes.inorder(), cast(List[int], [11, 14, 15, 17, 18, 20, 22, 27, 28, 32]))
+
         
 if __name__ == '__main__':
     unittest.main()
